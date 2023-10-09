@@ -42,4 +42,20 @@ const loginController = async (req, res) => {
 
 }
 
-module.exports = { loginController }
+const getUserData = async(req,res)=>{
+    const Id = req.user.id;
+    console.log(Id)
+    try {
+        const user = await User.findOne({_id:Id});
+        if(!user){
+            res.status(404).json({ success: false, message: "User Not Found, Please Try again" })
+        }
+        res.status(200).json({ success: true, user: user, message: "Data fetched successfully" })
+
+    } catch (error) {
+        res.status(400).json({ success: false, message: error })
+    }
+}
+
+
+module.exports = { loginController , getUserData }
